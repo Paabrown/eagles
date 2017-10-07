@@ -2,7 +2,9 @@ const gclass = require('./gclass');
 
 // HELPERS
 
-const getSubmissionsBasedOnRequest = function(profile, lessonID) {
+module.exports.ForTesting = {};
+
+module.exports.ForTesting.getSubmissionsBasedOnRequest = function(profile, lessonID) {
   console.log('getSubmissions helper running')
    return gclass.getCourseWork(profile, false)
   .then(results => {

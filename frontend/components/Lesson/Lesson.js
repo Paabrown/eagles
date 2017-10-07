@@ -3,7 +3,6 @@ import LessonSlideListEntry from './LessonSlideListEntry.js';
 import Slide from './Slide.js';
 import { Button, Grid, Row, Image, Modal } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import Test from './test.js';
 import LessonPreview from './LessonPreview'
 
 class Lesson extends React.Component {

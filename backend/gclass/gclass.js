@@ -9,7 +9,9 @@ const gclass = axios.create({
 
 // HELPERS
 
-const getFirstValidCourse = function(profile, courses, isForTeacher) {
+module.exports.ForTesting = {};
+
+module.exports.ForTesting.getFirstValidCourse = function(profile, courses, isForTeacher) {
   let courseToUse;
 
   for (let i = 0; i < courses.length && !courseToUse; i++) {
