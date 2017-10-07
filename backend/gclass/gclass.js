@@ -15,7 +15,9 @@ const getFirstValidCourse = function(profile, courses, isForTeacher) {
   for (let i = 0; i < courses.length && !courseToUse; i++) {
     let course = courses[i];
 
-    // Only returns true if it is for teacher AND it matches OR if both are false (NOT XOR)
+    // Only returns true if it is for teacher AND it the id of the owner matches the user id
+    // OR if both are false 
+    // This is accomblished by !(a^b) (NOT XOR)
 
     if (!((course.ownerId === profile.id) ^ isForTeacher)) {
       console.log('found course to use!', course);
@@ -23,8 +25,7 @@ const getFirstValidCourse = function(profile, courses, isForTeacher) {
     }
   }
 
-  console.log('courseToUse', courseToUse);
-  return courseToUse
+  return courseToUse;
 }
 
 // API CALLS
@@ -38,7 +39,7 @@ module.exports.getCourses = function(profile) {
 module.exports.getCourseWork = function(profile, isForTeacher) {
   const courses = profile.courses;
 
-  let courseToUse = getFirstValidCourse(profile, courses, isForTeacher);
+  const courseToUse = getFirstValidCourse(profile, courses, isForTeacher);
   console.log('courseToUse', courseToUse)
 
   return gclass.get(`/courses/${courseToUse}/courseWork`, {
@@ -47,8 +48,8 @@ module.exports.getCourseWork = function(profile, isForTeacher) {
 }
 
 module.exports.postCourseWork = function(profile, title, description, link) {
-  console.log('postCourseWork running')
-  let courseWork = {  
+  console.log('postCourseWork running');
+  const courseWork = {  
   'title': title,  
   'description': description,  
   'materials': [  
@@ -73,11 +74,13 @@ module.exports.postCourseWork = function(profile, title, description, link) {
 }
 
 module.exports.getSubmissions = function(profile, courseWork) {
-  var courses = profile.courses;
-  var googleID = profile.id;
-  var accessCode = profile.access;
-  var courseWorkID = courseWork.id;
-  var courseID = getFirstValidCourse(profile, courses, false).id;
+  const accessCode = profile.access;
+
+  const courses = profile.courses;
+  
+  const googleID = profile.id;
+  const courseWorkID = courseWork.id;
+  const courseID = getFirstValidCourse(profile, courses, false).id;
 
   var url = `https://classroom.googleapis.com/v1/courses/${courseID}/courseWork/${courseWorkID}/studentSubmissions/`;
   var authorization = 'Bearer ' + profile.access;
@@ -98,6 +101,8 @@ module.exports.getSubmissions = function(profile, courseWork) {
   //   return err;
   // })
 }
+
+// Done using request because I couldn't get it to work with axios
 
 module.exports.submitAssignment = function(profile, courseWorkID, submission) {
   console.log('submitASsignment running')
